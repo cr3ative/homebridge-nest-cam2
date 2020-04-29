@@ -81,6 +81,7 @@ class NestCamPlatform {
     self.nestAPI.on('cameras', (cameras) => {
       let configuredAccessories = [];
       cameras.forEach((camera) => {
+        self.log.info('Create camera - ' + camera.name);
         camera.configureWithHAP(hap, self.config);
         let name = camera.name;
         let model = (modelTypes.hasOwnProperty(camera.type)) ? modelTypes[camera.type] : 'Unknown';
@@ -91,7 +92,6 @@ class NestCamPlatform {
         accessoryInformation.setCharacteristic(Characteristic.Model, model);
         accessoryInformation.setCharacteristic(Characteristic.SerialNumber, camera.serialNumber);
         accessoryInformation.setCharacteristic(Characteristic.FirmwareRevision, camera.softwareVersion);
-        self.log.info('Create camera - ' + name);
         //Add motion detection
         let motionDetection = self.config.options['motionDetection'];
         if (typeof motionDetection === 'undefined') {
